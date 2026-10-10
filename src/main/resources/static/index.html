@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<title>ElectroShop — Shop Automation</title>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- SIDEBAR OVERLAY -->
+<div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
+<!-- ═══════════ SIDEBAR ═══════════ -->
+<aside class="sidebar" id="sidebar">
+  <div class="sidebar-logo">
+    <div class="logo-icon">⚡</div>
+    <div>
+      <div class="logo-text">ElectroShop</div>
+      <div class="logo-sub">SHOP AUTOMATION</div>
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Main</div>
+    <div class="nav-item active" data-page="dashboard" onclick="navigate('dashboard',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+      Dashboard
+    </div>
+    <div class="nav-item" data-page="products" onclick="navigate('products',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5s-.96.06-1.42.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09A5 5 0 006 11v1H4v2h2v1a5 5 0 002.81 4.53C9.84 20.21 11.36 21 13 21s3.16-.79 4.19-2.47A5 5 0 0020 15v-1h2v-2h-2v-1a5 5 0 00-.09-1H20V8zm-8 9a3 3 0 110-6 3 3 0 010 6z"/></svg>
+      Products
+      <span class="nav-badge" id="nb-products" style="display:none">0</span>
+    </div>
+    <div class="nav-item" data-page="stock" onclick="navigate('stock',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M21 16.5c0 .38-.21.71-.53.88l-7.9 4.44c-.16.12-.36.18-.57.18s-.41-.06-.57-.18l-7.9-4.44A.991.991 0 013 16.5v-9c0-.38.21-.71.53-.88l7.9-4.44c.16-.12.36-.18.57-.18s.41.06.57.18l7.9 4.44c.32.17.53.5.53.88v9zM12 4.15L6.04 7.5 12 10.85l5.96-3.35L12 4.15zM5 15.91l6 3.38v-6.71L5 9.21v6.7zm8 3.38l6-3.38V9.21l-6 3.37v6.71z"/></svg>
+      Stock
+      <span class="nav-badge" id="nb-stock" style="display:none">0</span>
+    </div>
+    <div class="nav-item" data-page="sales" onclick="navigate('sales',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7 17h11v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0023.45 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+      Quick Sale
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Finance</div>
+    <div class="nav-item" data-page="customers" onclick="navigate('customers',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      Customers
+      <span class="nav-badge" id="nb-customers" style="display:none">0</span>
+    </div>
+    <div class="nav-item" data-page="reports" onclick="navigate('reports',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+      Reports
+    </div>
+  </div>
+
+  <div class="sidebar-section">
+    <div class="sidebar-section-label">Tools</div>
+    <div class="nav-item" data-page="excel" onclick="navigate('excel',this)">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm4 18H6V4h7v5h5v11zM8 15.01l1.41 1.41L11 14.84l1.59 1.58L14 15.01 12.41 13.4l1.59-1.59-1.41-1.41-1.59 1.58-1.59-1.58L8 11.81l1.59 1.59L8 15.01z"/></svg>
+      Excel Import/Export
+    </div>
+  </div>
+
+  <div class="sidebar-footer">
+    <div class="dark-toggle" onclick="toggleDark()">
+      <svg viewBox="0 0 24 24" fill="currentColor" width="16" height="16" style="color:rgba(255,255,255,0.5)"><path d="M12 3a9 9 0 109 9c0-.46-.04-.92-.1-1.36a5.389 5.389 0 01-4.4 2.26 5.403 5.403 0 01-3.14-9.8c-.44-.06-.9-.1-1.36-.1z"/></svg>
+      <span style="font-size:13px;color:rgba(255,255,255,0.5)">Dark Mode</span>
+      <div class="toggle-switch" id="darkToggle"></div>
+    </div>
+  </div>
+</aside>
+
+<!-- ═══════════ MAIN ═══════════ -->
+<div class="main-content">
+
+  <!-- TOPBAR -->
+  <header class="topbar">
+    <button class="topbar-hamburger" onclick="openSidebar()">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 18h18v-2H3v2zm0-5h18v-2H3v2zm0-7v2h18V6H3z"/></svg>
+    </button>
+    <span class="topbar-title" id="topbarTitle">Dashboard</span>
+    <div class="topbar-search">
+      <svg class="search-icon" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+      <input type="text" placeholder="Search products, customers…" id="globalSearch" oninput="handleGlobalSearch(this.value)">
+    </div>
+    <div class="topbar-actions">
+      <div style="display:flex;align-items:center;gap:5px;font-size:11px;color:var(--text3);margin-right:4px;">
+        <div id="refreshDot" style="width:8px;height:8px;border-radius:50%;background:var(--success);transition:background 0.3s;cursor:pointer;" title="Live sync active" onclick="silentRefresh()"></div>
+        <span>Live</span>
+      </div>
+      <button class="topbar-btn" onclick="navigate('stock',null)" title="Stock Alerts">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.9 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg>
+        <span class="dot" id="alertDot" style="display:none"></span>
+      </button>
+      <button class="topbar-btn" onclick="navigate('reports',null)" title="Reports">
+        <svg viewBox="0 0 24 24" fill="currentColor" width="18" height="18"><path d="M16 6l2.29 2.29-4.88 4.88-4-4L2 16.59 3.41 18l6-6 4 4 6.3-6.29L22 12V6h-6z"/></svg>
+      </button>
+    </div>
+  </header>
+
+  <!-- PAGE CONTENT -->
+  <main class="page-content">
+
+    <!-- ══════════ DASHBOARD ══════════ -->
+    <div class="page active" id="page-dashboard">
+      <div class="page-header">
+        <div>
+          <h2>Dashboard</h2>
+          <p id="dashDate">Loading…</p>
+        </div>
+        <button class="btn btn-primary btn-sm" onclick="navigate('sales',null)">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          New Sale
+        </button>
+      </div>
+
+      <!-- ALERTS -->
+      <div id="dashAlerts"></div>
+
+      <!-- STATS -->
+      <div class="stat-grid" id="dashStats">
+        <div class="stat-card"><div class="stat-label">Today's Sales</div><div class="stat-value rupee" id="st-sales">0</div><div class="stat-sub" id="st-sales-sub">0 transactions</div><div class="stat-icon">💰</div></div>
+        <div class="stat-card green"><div class="stat-label">Today's Profit</div><div class="stat-value rupee" id="st-profit">0</div><div class="stat-sub" id="st-profit-sub">—</div><div class="stat-icon">📈</div></div>
+        <div class="stat-card orange"><div class="stat-label">Low Stock Items</div><div class="stat-value" id="st-lowstock">0</div><div class="stat-sub">Need restocking</div><div class="stat-icon">📦</div></div>
+        <div class="stat-card red"><div class="stat-label">Due Customers</div><div class="stat-value" id="st-due">0</div><div class="stat-sub" id="st-due-sub">₹0 pending</div><div class="stat-icon">👤</div></div>
+      </div>
+
+      <!-- CHARTS ROW -->
+      <div style="display:grid;grid-template-columns:2fr 1fr;gap:16px;margin-bottom:20px;">
+        <div class="card">
+          <div class="card-title">Weekly Sales & Profit</div>
+          <div class="chart-wrap"><canvas id="weeklyChart"></canvas></div>
+        </div>
+        <div class="card">
+          <div class="card-title">Sales Breakdown</div>
+          <div class="chart-wrap"><canvas id="pieChart"></canvas></div>
+        </div>
+      </div>
+
+      <!-- BOTTOM ROW -->
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="card">
+          <div class="card-title">⚠️ Low Stock Alert</div>
+          <div id="dashLowStock"><div class="empty-state" style="padding:20px"><p>All products well stocked</p></div></div>
+        </div>
+        <div class="card">
+          <div class="card-title">💳 Due Customers</div>
+          <div id="dashDueCustomers"><div class="empty-state" style="padding:20px"><p>No pending dues</p></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ PRODUCTS ══════════ -->
+    <div class="page" id="page-products">
+      <div class="page-header">
+        <div>
+          <h2>Products</h2>
+          <p id="prodCount">Loading…</p>
+        </div>
+        <div style="display:flex;gap:8px;flex-wrap:wrap;">
+          <button class="btn btn-outline btn-sm" onclick="exportProducts()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Export
+          </button>
+          <button class="btn btn-primary btn-sm" onclick="openProductModal()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+            Add Product
+          </button>
+        </div>
+      </div>
+
+      <!-- SEARCH + FILTER -->
+      <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
+        <div class="search-wrap" style="flex:1;min-width:200px;">
+          <div style="position:relative;">
+            <svg style="position:absolute;left:11px;top:50%;transform:translateY(-50%);color:var(--text3);width:16px;height:16px;" viewBox="0 0 24 24" fill="currentColor"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0016 9.5 6.5 6.5 0 109.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            <input class="form-input" style="padding-left:36px;" type="text" placeholder="AI search — try even with spelling mistakes…" id="productSearch" oninput="searchProducts(this.value)">
+          </div>
+          <div class="autocomplete-dropdown" id="productAC"></div>
+        </div>
+        <select class="form-input form-select" style="width:160px;" onchange="filterProducts(this.value)">
+          <option value="">All Categories</option>
+          <option value="mobile">Mobile</option>
+          <option value="cable">Cable/Charger</option>
+          <option value="laptop">Laptop</option>
+          <option value="accessory">Accessory</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <div class="card" style="padding:0;overflow:hidden;">
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>Product</th>
+                <th>Category</th>
+                <th>Cost Price</th>
+                <th>Sell Price</th>
+                <th>Profit/unit</th>
+                <th>Stock</th>
+                <th>Status</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="productTableBody">
+              <tr><td colspan="8" style="text-align:center;padding:40px;color:var(--text3)"><div class="loading-spinner"></div></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div id="productPagination" style="padding:12px 16px;border-top:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;">
+          <span style="font-size:13px;color:var(--text3)" id="prodPaginInfo">—</span>
+          <div class="pagination" id="prodPaginBtns"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ STOCK ══════════ -->
+    <div class="page" id="page-stock">
+      <div class="page-header">
+        <div><h2>Stock Management</h2><p>Monitor and manage inventory levels</p></div>
+        <button class="btn btn-outline btn-sm" onclick="refreshStock()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.65 6.35A7.958 7.958 0 0012 4c-4.42 0-7.99 3.58-7.99 8s3.57 8 7.99 8c3.73 0 6.84-2.55 7.73-6h-2.08A5.99 5.99 0 0112 18c-3.31 0-6-2.69-6-6s2.69-6 6-6c1.66 0 3.14.69 4.22 1.78L13 11h7V4l-2.35 2.35z"/></svg>
+          Refresh
+        </button>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchStockTab('low',this)">⚠️ Low Stock</button>
+        <button class="tab-btn" onclick="switchStockTab('slow',this)">📉 Slow Selling</button>
+        <button class="tab-btn" onclick="switchStockTab('all',this)">📦 All Stock</button>
+      </div>
+
+      <div id="stockTabContent"></div>
+    </div>
+
+    <!-- ══════════ QUICK SALE ══════════ -->
+    <div class="page" id="page-sales">
+      <div class="page-header">
+        <div><h2>Quick Sale</h2><p>Add products and complete sale instantly</p></div>
+        <div style="display:flex;gap:8px;">
+          <button class="btn btn-outline btn-sm" onclick="clearCart()">Clear Cart</button>
+          <button class="btn btn-outline btn-sm" onclick="navigate('reports',null)">Sale History</button>
+        </div>
+      </div>
+
+      <div class="sale-layout">
+        <!-- LEFT: Products -->
+        <div>
+          <div class="sale-products">
+            <div class="sale-prod-header">
+              <div class="search-wrap" style="flex:1;">
+                <input class="form-input" type="text" placeholder="Search & add product…" id="saleSearch" oninput="saleFuzzySearch(this.value)" autocomplete="off">
+                <div class="autocomplete-dropdown" id="saleAC"></div>
+              </div>
+            </div>
+            <div class="product-grid" id="saleProductGrid"></div>
+          </div>
+
+          <!-- CUSTOMER SELECTION -->
+          <div class="card" style="margin-top:16px;">
+            <div class="card-title">Customer (Optional)</div>
+            <div class="search-wrap">
+              <input class="form-input" type="text" placeholder="Search customer by name or phone…" id="custSearch" oninput="searchCustomerForSale(this.value)" autocomplete="off">
+              <div class="autocomplete-dropdown" id="custAC"></div>
+            </div>
+            <div id="selectedCustomerBanner" style="display:none;margin-top:10px;"></div>
+          </div>
+        </div>
+
+        <!-- RIGHT: Cart -->
+        <div class="cart-panel">
+          <div class="cart-header">
+            <div style="font-size:15px;font-weight:700;">🛒 Cart</div>
+            <span class="badge badge-blue" id="cartCountBadge">0 items</span>
+          </div>
+          <div class="cart-items" id="cartItemsEl">
+            <div class="cart-empty-state"><div class="icon">🛒</div><p>Tap a product to add it</p></div>
+          </div>
+          <div class="cart-footer" id="cartFooterEl" style="display:none;">
+            <div class="cart-total-row">
+              <span class="cart-total-label">Total</span>
+              <span class="cart-total-val" id="cartTotalEl">₹0</span>
+            </div>
+            <div class="cart-paid-row">
+              <input class="form-input" type="number" placeholder="Amount paid (₹)" id="cartPaidEl" oninput="updateCartDue()">
+            </div>
+            <div id="cartDueBadgeEl"></div>
+            <button class="btn btn-success btn-full btn-lg" style="margin-top:12px;" onclick="askCompleteSale()">
+              ✓ Complete Sale
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══════════ CUSTOMERS ══════════ -->
+    <div class="page" id="page-customers">
+      <div class="page-header">
+        <div><h2>Customers</h2><p id="custCount">0 customers</p></div>
+        <button class="btn btn-primary btn-sm" onclick="openCustomerModal()">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/></svg>
+          Add Customer
+        </button>
+      </div>
+
+      <div style="display:flex;gap:10px;margin-bottom:16px;">
+        <input class="form-input" style="flex:1;" type="text" placeholder="Search by name or phone…" oninput="renderCustomers(this.value)">
+        <select class="form-input form-select" style="width:150px;" onchange="filterCust(this.value)" id="custFilter">
+          <option value="">All</option>
+          <option value="due">Has Due</option>
+          <option value="paid">Fully Paid</option>
+        </select>
+      </div>
+
+      <div id="customerListEl"></div>
+    </div>
+
+    <!-- ══════════ REPORTS ══════════ -->
+    <div class="page" id="page-reports">
+      <div class="page-header">
+        <div><h2>Reports</h2><p>Sales, profit and performance analytics</p></div>
+        <div style="display:flex;gap:8px;">
+          <input type="date" class="form-input" id="reportFrom" style="width:150px;">
+          <input type="date" class="form-input" id="reportTo" style="width:150px;">
+          <button class="btn btn-primary btn-sm" onclick="loadReports()">Apply</button>
+        </div>
+      </div>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchReportTab('daily',this)">Daily</button>
+        <button class="tab-btn" onclick="switchReportTab('monthly',this)">Monthly</button>
+        <button class="tab-btn" onclick="switchReportTab('products',this)">By Product</button>
+        <button class="tab-btn" onclick="switchReportTab('sales',this)">Sale History</button>
+      </div>
+
+      <div id="reportTabContent"></div>
+    </div>
+
+    <!-- ══════════ EXCEL ══════════ -->
+    <div class="page" id="page-excel">
+      <div class="page-header">
+        <div><h2>Excel Import / Export</h2><p>Bulk manage your product inventory</p></div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+        <div class="card">
+          <div class="card-title">📥 Import Products from Excel</div>
+          <div id="dropZone" style="border:2px dashed var(--border2);border-radius:var(--radius);padding:40px;text-align:center;cursor:pointer;transition:all 0.2s;margin-bottom:16px;" onclick="document.getElementById('excelFileInput').click()" ondragover="dragOver(event)" ondrop="dropFile(event)">
+            <div style="font-size:36px;margin-bottom:10px;">📊</div>
+            <div style="font-size:15px;font-weight:600;margin-bottom:6px;">Drop Excel file here</div>
+            <div style="font-size:13px;color:var(--text3)">or click to browse — .xlsx, .xls supported</div>
+          </div>
+          <input type="file" id="excelFileInput" accept=".xlsx,.xls" style="display:none" onchange="handleExcelImport(this)">
+          <div class="alert alert-blue">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+            <div>Excel columns: <strong>Name, Category, CostPrice, SellPrice, Stock, MinStock</strong></div>
+          </div>
+          <div id="importPreview"></div>
+        </div>
+
+        <div class="card">
+          <div class="card-title">📤 Export Products to Excel</div>
+          <p style="font-size:13.5px;color:var(--text2);margin-bottom:16px;">Download your full product inventory as an Excel file.</p>
+          <button class="btn btn-success btn-full" onclick="exportProducts()">
+            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+            Download Products Excel
+          </button>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+            <div class="card-title">📋 Export Sale Reports</div>
+            <div style="display:flex;gap:10px;margin-top:10px;">
+              <button class="btn btn-outline btn-sm btn-full" onclick="exportSales('daily')">Today's Sales</button>
+              <button class="btn btn-outline btn-sm btn-full" onclick="exportSales('monthly')">Monthly Sales</button>
+            </div>
+          </div>
+          <div style="margin-top:14px;padding-top:14px;border-top:1px solid var(--border);">
+            <div class="card-title">💾 Backup</div>
+            <button class="btn btn-outline btn-full" onclick="triggerBackup()">
+              <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19.35 10.04A7.49 7.49 0 0012 4C9.11 4 6.6 5.64 5.35 8.04A5.994 5.994 0 000 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg>
+              Backup Now
+            </button>
+            <p style="font-size:12px;color:var(--text3);margin-top:8px;" id="lastBackupTime">Last backup: —</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </main>
+</div>
+
+<!-- BOTTOM NAV (mobile) -->
+<nav class="bottom-nav">
+  <div class="bottom-nav-inner">
+    <div class="bnav-item active" onclick="navigate('dashboard',this)" data-page="dashboard">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M3 13h8V3H3v10zm0 8h8v-6H3v6zm10 0h8V11h-8v10zm0-18v6h8V3h-8z"/></svg>
+      Home
+    </div>
+    <div class="bnav-item" onclick="navigate('products',this)" data-page="products">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M20 8h-2.81c-.45-.78-1.07-1.45-1.82-1.96L17 4.41 15.59 3l-2.17 2.17C12.96 5.06 12.49 5 12 5s-.96.06-1.42.17L8.41 3 7 4.41l1.62 1.63C7.88 6.55 7.26 7.22 6.81 8H4v2h2.09A5 5 0 006 11v1H4v2h2v1a5 5 0 002.81 4.53C9.84 20.21 11.36 21 13 21s3.16-.79 4.19-2.47A5 5 0 0020 15v-1h2v-2h-2v-1a5 5 0 00-.09-1H20V8zm-8 9a3 3 0 110-6 3 3 0 010 6z"/></svg>
+      Products
+    </div>
+    <div class="bnav-item" onclick="navigate('sales',this)" data-page="sales">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.1 17 7 17h11v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49A1 1 0 0023.45 4H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+      Sale
+    </div>
+    <div class="bnav-item" onclick="navigate('customers',this)" data-page="customers">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>
+      Customers
+    </div>
+    <div class="bnav-item" onclick="navigate('reports',this)" data-page="reports">
+      <svg viewBox="0 0 24 24" fill="currentColor"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z"/></svg>
+      Reports
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════ MODALS ═══════════ -->
+
+<!-- PRODUCT MODAL -->
+<div class="modal-backdrop" id="modalProduct">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="prodModalTitle">Add Product</h3>
+      <button class="modal-close" onclick="closeModal('modalProduct')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="prodId">
+      <div id="dupWarning" class="alert alert-orange" style="display:none;">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+        <span id="dupMsg">Similar product found — check for duplicates!</span>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Product Image (Optional)</label>
+        <div id="imagePreviewBox" onclick="document.getElementById('prodImageInput').click()" style="width:100%;height:140px;border:2px dashed var(--border2);border-radius:var(--radius);display:flex;align-items:center;justify-content:center;cursor:pointer;margin-bottom:8px;overflow:hidden;background:var(--surface2);">
+          <img id="imagePreview" src="" style="display:none;width:100%;height:100%;object-fit:cover;border-radius:var(--radius);">
+          <div id="imagePlaceholder" style="text-align:center;color:var(--text3);">
+            <div style="font-size:28px;margin-bottom:4px;">📷</div>
+            <div style="font-size:12px;">Click to upload image</div>
+          </div>
+        </div>
+        <input type="file" id="prodImageInput" accept="image/*" style="display:none;" onchange="handleProductImage(this)">
+        <button class="btn btn-ghost btn-sm" id="removeImageBtn" style="display:none;color:var(--danger);" onclick="removeProductImage()">✕ Remove Image</button>
+      </div>
+      <div class="form-group">
+        <label class="form-label">Product Name *</label>
+        <input class="form-input" type="text" id="prodName" placeholder="e.g. Samsung USB-C Cable" oninput="checkDuplicate(this.value)">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Category (Optional)</label>
+        <input class="form-input" type="text" id="prodCategory" placeholder="e.g. Cable, Mobile, Laptop" list="categoryList">
+        <datalist id="categoryList">
+          <option value="Cable/Charger">
+          <option value="Mobile">
+          <option value="Laptop">
+          <option value="Accessory">
+          <option value="Headphone">
+          <option value="Speaker">
+          <option value="Battery">
+          <option value="Other">
+        </datalist>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Cost Price ₹ (Optional)</label>
+          <input class="form-input" type="number" id="prodCost" placeholder="Leave empty if not known" oninput="calcProfitPreview()">
+          <span class="form-hint">If empty, profit will show as 0</span>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Selling Price ₹ *</label>
+          <input class="form-input" type="number" id="prodPrice" placeholder="120" oninput="calcProfitPreview()">
+        </div>
+      </div>
+      <div id="profitPreview" style="display:none;padding:8px 12px;border-radius:var(--radius-sm);font-size:13px;font-weight:600;margin-bottom:14px;"></div>
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Stock Quantity *</label>
+          <input class="form-input" type="number" id="prodStock" placeholder="20">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Min Stock (Alert Level)</label>
+          <input class="form-input" type="number" id="prodMinStock" placeholder="5">
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modalProduct')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveProduct()">
+        <svg viewBox="0 0 24 24" fill="currentColor"><path d="M17 3H5a2 2 0 00-2 2v14a2 2 0 002 2h14c1.1 0 2-.9 2-2V7l-4-4zm-5 16c-1.66 0-3-1.34-3-3s1.34-3 3-3 3 1.34 3 3-1.34 3-3 3zm3-10H5V5h10v4z"/></svg>
+        Save Product
+      </button>
+    </div>
+  </div>
+</div>
+
+<!-- CUSTOMER MODAL -->
+<div class="modal-backdrop" id="modalCustomer">
+  <div class="modal">
+    <div class="modal-header">
+      <h3 id="custModalTitle">Add Customer</h3>
+      <button class="modal-close" onclick="closeModal('modalCustomer')">✕</button>
+    </div>
+    <div class="modal-body">
+      <input type="hidden" id="custId">
+      <div class="form-group">
+        <label class="form-label">Customer Name *</label>
+        <input class="form-input" type="text" id="custName" placeholder="e.g. Rahul Kumar">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Phone Number</label>
+        <input class="form-input" type="tel" id="custPhone" placeholder="9876543210">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Initial Due Amount (₹)</label>
+        <input class="form-input" type="number" id="custDue" placeholder="0">
+        <span class="form-hint">Leave 0 if new customer with no dues</span>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-outline" onclick="closeModal('modalCustomer')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveCustomer()">Save Customer</button>
+    </div>
+  </div>
+</div>
+
+<!-- PRICE HISTORY MODAL -->
+<div class="modal-backdrop" id="modalPriceHistory">
+  <div class="modal" style="max-width:420px;">
+    <div class="modal-header">
+      <h3>Price History</h3>
+      <button class="modal-close" onclick="closeModal('modalPriceHistory')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="priceHistoryContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- CUSTOMER HISTORY MODAL -->
+<div class="modal-backdrop" id="modalCustHistory">
+  <div class="modal" style="max-width:520px;">
+    <div class="modal-header">
+      <h3 id="custHistTitle">Customer History</h3>
+      <button class="modal-close" onclick="closeModal('modalCustHistory')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div id="custHistContent"></div>
+    </div>
+  </div>
+</div>
+
+<!-- BILL MODAL -->
+<div class="modal-backdrop" id="modalBill">
+  <div class="modal bill-modal" style="max-width:500px;">
+    <div class="modal-close" style="position:absolute;top:16px;right:16px;z-index:1;background:rgba(255,255,255,0.2);" onclick="closeModal('modalBill')">✕</div>
+    <div id="billContent"></div>
+    <div style="padding:16px 24px;display:flex;gap:10px;border-top:1px solid var(--border);">
+      <button class="btn btn-outline btn-full" onclick="printBill()">🖨️ Print Bill</button>
+      <button class="btn btn-primary btn-full" onclick="closeModal('modalBill')">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- CONFIRM MODAL -->
+<div class="modal-backdrop" id="modalConfirm">
+  <div class="modal confirm-modal">
+    <div class="modal-body">
+      <div class="confirm-icon red" id="confirmIcon"><span id="confirmIconEmoji">🗑️</span></div>
+      <div class="confirm-title" id="confirmTitle">Are you sure?</div>
+      <div class="confirm-msg" id="confirmMsg">This action cannot be undone.</div>
+    </div>
+    <div class="confirm-footer">
+      <button class="btn btn-outline btn-full" onclick="closeModal('modalConfirm')">Cancel</button>
+      <button class="btn btn-danger btn-full" id="confirmOkBtn" onclick="runConfirm()">Confirm</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST CONTAINER -->
+<div class="toast-container" id="toastContainer"></div>
+
+<!-- ═══════════ SCRIPTS ═══════════ -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.4.1/chart.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fuse.js/7.0.0/fuse.min.js"></script>
+
+<script src="app.js"></script>
+
+</body>
+</html>
